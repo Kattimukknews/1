@@ -8,7 +8,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Playfair Display for editorial serif, Inter for UI, Noto Sans Malayalam -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Malayalam:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet">
@@ -118,8 +118,8 @@
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 font-medium tracking-wide">
                 <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-600 animate-pulseGlow"></span>
-                <span class="text-amber-400 uppercase tracking-widest text-[10px] font-bold">WELCOME TO KATTIMUKK NEWS:</span>
-                <span id="tickerText" class="truncate max-w-md sm:max-w-xl text-slate-300">मोइदू जी हमारी कृपा हैं</span>
+                <span class="text-amber-400 uppercase tracking-widest text-[10px] font-bold">NOTICE:</span>
+                <span id="tickerText" class="truncate max-w-md sm:max-w-xl text-slate-300">Live system connected to Google Sheets database.</span>
             </div>
             <div class="flex items-center gap-4 text-[11px] text-slate-400 font-mono">
                 <span id="liveDate">Wednesday, Sept 23, 2026</span>
@@ -252,7 +252,7 @@
                 <div class="border-b border-slate-200 pb-4 mb-6">
                     <span class="text-xs font-mono uppercase tracking-widest text-red-800 font-bold">Public Dispatch Form</span>
                     <h2 class="font-headline text-3xl font-black text-slate-950 mt-1">Submit News Report</h2>
-                    <p class="text-xs text-slate-500 mt-1">Your report will be forwarded to the KAATTIMUKKU Editorial & Verification Department for swift scrutiny.</p>
+                    <p class="text-xs text-slate-500 mt-1">Your report will be stored live in Google Sheets and forwarded to the KAATTIMUKKU Editorial Department.</p>
                 </div>
 
                 <form id="newsForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
@@ -261,7 +261,6 @@
                             News Headline <span class="text-red-700">*</span>
                         </label>
                         <input type="text" id="formHeadline" required placeholder="e.g. CLASSROOM FAN STOPS WORKING FOR 11 MINUTES" class="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-red-900/30 focus:border-red-900 focus:outline-none transition">
-                        <p class="text-[11px] text-slate-500 mt-1">Keep it serious and factual. Supports English & Malayalam text.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -306,9 +305,6 @@
                             <span class="block text-xs font-bold uppercase tracking-wider text-slate-900">
                                 Evidence & Supporting Material
                             </span>
-                            <span class="text-[11px] text-slate-500 italic block mt-0.5">
-                                “Because allegations alone are apparently insufficient.”
-                            </span>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -317,7 +313,7 @@
                                 <input type="url" id="formImageUrl" placeholder="https://..." class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-md focus:ring-1 focus:ring-red-900 focus:outline-none">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">External Link / Video / Doc URL</label>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">External Link / Doc URL</label>
                                 <input type="url" id="formEvidenceUrl" placeholder="https://..." class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-md focus:ring-1 focus:ring-red-900 focus:outline-none">
                             </div>
                         </div>
@@ -327,7 +323,7 @@
                         <button type="button" onclick="navigateTo('home')" class="px-5 py-2.5 border border-slate-300 text-slate-700 text-xs font-bold uppercase rounded-lg hover:bg-slate-100 transition">
                             Cancel
                         </button>
-                        <button type="submit" class="px-6 py-2.5 bg-red-900 hover:bg-red-950 active:scale-95 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow transition flex items-center gap-2">
+                        <button type="submit" id="submitBtn" class="px-6 py-2.5 bg-red-900 hover:bg-red-950 active:scale-95 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow transition flex items-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i>
                             <span>Submit for Verification</span>
                         </button>
@@ -336,7 +332,7 @@
             </div>
         </div>
 
-        <!-- Single Article Detail View -->
+        <!-- Article Detail View -->
         <div id="view-article" class="view-section hidden max-w-4xl mx-auto animate-fadeIn">
             <div id="articleContainer"></div>
         </div>
@@ -348,7 +344,6 @@
                     <div>
                         <span class="text-xs font-mono text-amber-500 uppercase tracking-widest font-bold">Special Bureau Division</span>
                         <h2 class="font-headline text-3xl font-black tracking-tight text-white mt-1">🔎 KAATTIMUKKU INVESTIGATION DESK</h2>
-                        <p class="text-xs text-slate-400 mt-1 italic">“Our highly trained team is looking into it. Probably.”</p>
                     </div>
                     <div class="bg-slate-900/90 px-5 py-2.5 rounded-lg border border-slate-800 text-right">
                         <span class="block text-[10px] font-mono uppercase text-slate-400 tracking-wider">Active Dossiers</span>
@@ -364,9 +359,7 @@
         <div id="view-evidence" class="view-section hidden animate-fadeIn">
             <div class="border-b border-slate-300 pb-4 mb-6">
                 <h2 class="font-headline text-3xl font-black text-slate-950">Evidence Vault & Attachments</h2>
-                <p class="text-xs text-slate-600 mt-1">Photographic and documentary materials submitted by witnesses to corroborate reported claims.</p>
             </div>
-
             <div id="evidenceGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
@@ -377,7 +370,6 @@
                     <div>
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-900 border border-red-200 uppercase tracking-wider">Restricted Access</span>
                         <h2 class="font-headline text-3xl font-black text-slate-950 mt-1">KAATTIMUKKU Editorial Desk</h2>
-                        <p class="text-xs text-slate-500">Manage submissions, verify statements, edit live text, and control public distribution.</p>
                     </div>
                     <button onclick="logoutAdmin()" class="text-xs px-3.5 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-100 font-semibold text-slate-700 transition">
                         <i class="fa-solid fa-lock mr-1.5"></i> Exit Admin Mode
@@ -494,68 +486,71 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
                 <div>
                     <h4 class="font-headline text-xl font-bold text-white mb-2">KAATTIMUKKU NEWS</h4>
-                    <p class="BOLD text-slate-400 mb-3 font-TIMESNEWROMAN ">ABSOLUTE BARROZ!!</p>
-                    <p class="text-slate-500 leading-relaxed text-[11px]">
-                        First Ever Website of Kattimukk News,
-                        स्थापक - आश्रित भैय्या 
-                    </p>
+                    <p class="italic text-slate-400 mb-3 font-serif">“100% Professional. Real. Verified.”</p>
                 </div>
                 <div>
                     <h5 class="font-bold text-white uppercase tracking-wider mb-3">Verification Office</h5>
-                    <p class="text-slate-500 text-[11px] leading-relaxed mb-2">
-                        “We checked. Probably.”
-                    </p>
-                    <p class="text-slate-500 text-[11px] leading-relaxed">
-                        All submitted reports are handled by our completely unbiased, highly trained, and definitely real verification department.
-                    </p>
                 </div>
                 <div>
                     <h5 class="font-bold text-white uppercase tracking-wider mb-3">Editorial Desk</h5>
-                    <p class="text-slate-500 text-[11px] mb-3">
-                        Managed by <code class="bg-slate-900 border border-slate-800 text-amber-400 px-1.5 py-0.5 rounded font-mono">AJP & 6AAT ANNNAN</code>.
-                    </p>
                     <button onclick="toggleAdminModal()" class="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-lg text-xs font-mono transition">
                         <i class="fa-solid fa-lock mr-1.5 text-slate-500"></i> Access Desk Controls
                     </button>
                 </div>
             </div>
-            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 gap-3">
-                <p>© 2026 KAATTIMUKKU NEWS. All rights reserved.</p>
-                <div class="flex gap-6">
-                    <a href="#" onclick="navigateTo('home'); return false;" class="hover:text-slate-300 transition">Home</a>
-                    <a href="#" onclick="navigateTo('investigation'); return false;" class="hover:text-slate-300 transition">Investigation Desk</a>
-                    <a href="#" onclick="navigateTo('submit'); return false;" class="hover:text-slate-300 transition">Post Report</a>
-                </div>
-            </div>
         </div>
     </footer>
 
-    <!-- Application Controller Logic (Local Storage Powered) -->
+    <!-- Google Sheets API Controller -->
     <script>
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBULVsHGft0B6r8YyuQ4nq6DfduRZpEovOyY_TgKZRJDYWdY1s-pdxrRjioy7GwqbRAg/exec";
+
         let currentView = 'home';
         let activeCategoryFilter = 'ALL';
         let activeStatusFilter = 'ALL';
         let searchQuery = '';
         let activeAdminTab = 'pending';
 
-        window.allNews = JSON.parse(localStorage.getItem('kaattimukku_news_cache') || '[]');
+        window.allNews = [];
         window.isAdminLoggedIn = localStorage.getItem('kaattimukku_admin') === 'true';
 
-        window.saveNewsToStorage = function(newsItem) {
-            const index = window.allNews.findIndex(n => n.id === newsItem.id);
-            if (index >= 0) {
-                window.allNews[index] = newsItem;
-            } else {
-                window.allNews.unshift(newsItem);
+        async function fetchLiveNews() {
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL);
+                const data = await res.json();
+                window.allNews = data || [];
+                window.renderCurrentView();
+            } catch (err) {
+                console.error('Error fetching Google Sheets data:', err);
             }
-            localStorage.setItem('kaattimukku_news_cache', JSON.stringify(window.allNews));
-            window.renderCurrentView();
+        }
+
+        window.saveNewsToStorage = async function(newsItem) {
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newsItem)
+                });
+                setTimeout(fetchLiveNews, 1500);
+            } catch (err) {
+                console.error('Error writing to Google Sheets:', err);
+            }
         };
 
-        window.deleteNewsFromStorage = function(newsId) {
-            window.allNews = window.allNews.filter(n => n.id !== newsId);
-            localStorage.setItem('kaattimukku_news_cache', JSON.stringify(window.allNews));
-            window.renderCurrentView();
+        window.deleteNewsFromStorage = async function(newsId) {
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'delete', id: newsId })
+                });
+                setTimeout(fetchLiveNews, 1500);
+            } catch (err) {
+                console.error('Error deleting from Google Sheets:', err);
+            }
         };
 
         window.onload = function() {
@@ -564,7 +559,7 @@
             document.getElementById('liveDate').innerText = dateObj.toLocaleDateString('en-US', options);
             
             updateAdminUI();
-            renderCurrentView();
+            fetchLiveNews();
         };
 
         function navigateTo(viewId, param = null) {
@@ -627,7 +622,7 @@
             const breakingContainer = document.getElementById('breakingBannerContainer');
             const newsCountBadge = document.getElementById('newsCountBadge');
 
-            let publishedNews = (window.allNews || []).filter(item => item.published === true);
+            let publishedNews = (window.allNews || []).filter(item => item.published === true || item.published === 'TRUE');
 
             if (activeCategoryFilter === 'BREAKING') {
                 publishedNews = publishedNews.filter(n => n.category === 'Breaking News');
@@ -641,9 +636,9 @@
 
             if (searchQuery) {
                 publishedNews = publishedNews.filter(n => 
-                    n.headline.toLowerCase().includes(searchQuery) ||
-                    n.content.toLowerCase().includes(searchQuery) ||
-                    (n.reporter && n.reporter.toLowerCase().includes(searchQuery))
+                    String(n.headline).toLowerCase().includes(searchQuery) ||
+                    String(n.content).toLowerCase().includes(searchQuery) ||
+                    (n.reporter && String(n.reporter).toLowerCase().includes(searchQuery))
                 );
             }
 
@@ -695,7 +690,6 @@
                         ${item.imageUrl ? `
                             <div class="h-48 overflow-hidden bg-slate-100 relative">
                                 <img src="${escapeHtml(item.imageUrl)}" alt="News image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/1e293b/ffffff?text=EVIDENCE+IMAGE'">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         ` : ''}
                         
@@ -724,7 +718,7 @@
         }
 
         function renderArticleDetail(articleId) {
-            const article = (window.allNews || []).find(n => n.id === articleId);
+            const article = (window.allNews || []).find(n => String(n.id) === String(articleId));
             const container = document.getElementById('articleContainer');
 
             if (!article) {
@@ -757,22 +751,6 @@
                         </div>
                     </div>
 
-                    <div class="p-4 rounded-lg border mb-8 flex items-start gap-3 bg-slate-50/80 border-slate-200">
-                        <div class="text-2xl mt-0.5">
-                            ${article.status === 'VERIFIED' ? '🟢' : article.status === 'UNDER_INVESTIGATION' ? '🟡' : '🔴'}
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-xs uppercase tracking-wider text-slate-900">
-                                Official Verification Status: ${article.status || 'UNVERIFIED'}
-                            </h4>
-                            <p class="text-xs text-slate-600 mt-0.5 italic">
-                                ${article.status === 'VERIFIED' ? 'Verified by our completely unbiased and definitely real verification department.' : 
-                                  article.status === 'UNDER_INVESTIGATION' ? 'Our highly trained team is currently examining witness testimonies.' : 
-                                  'This report has not yet been corroborated by independent third-party bench witnesses.'}
-                            </p>
-                        </div>
-                    </div>
-
                     ${article.imageUrl ? `
                         <div class="mb-8 rounded-xl overflow-hidden border border-slate-200 shadow-sm">
                             <img src="${escapeHtml(article.imageUrl)}" alt="Attached Evidence" class="w-full max-h-[450px] object-cover" onerror="this.style.display='none'">
@@ -782,20 +760,6 @@
                     <div class="prose max-w-none text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-line font-sans mb-8">
                         ${escapeHtml(article.content)}
                     </div>
-
-                    ${(article.evidenceUrl || article.imageUrl) ? `
-                        <div class="p-5 bg-amber-50/60 border border-amber-200/80 rounded-lg mt-8">
-                            <h4 class="font-bold text-xs uppercase tracking-wider text-amber-950 mb-2 flex items-center gap-1.5">
-                                <i class="fa-solid fa-paperclip text-amber-800"></i> 📰 കാട്ടിമുക്ക് ന്യൂസിനായി വാർത്തകൾ നൽകാം
-                            </h4>
-                            <p class="text-xs text-amber-900 mb-3 italic">⚠️ മുന്നറിയിപ്പ്: വ്യാജ വാർത്തകൾ നൽകുന്നത് ശിക്ഷാർഹമാണ്</p>
-                            ${article.evidenceUrl ? `
-                                <a href="${escapeHtml(article.evidenceUrl)}" target="_blank" rel="noopener" class="text-xs text-red-900 underline font-mono break-all hover:text-red-950 transition">
-                                    <i class="fa-solid fa-external-link mr-1"></i> View Submitted External Material
-                                </a>
-                            ` : ''}
-                        </div>
-                    ` : ''}
                 </div>
             `;
         }
@@ -808,28 +772,19 @@
             countEl.innerText = cases.length;
 
             if (cases.length === 0) {
-                list.innerHTML = `
-                    <div class="p-8 text-center text-slate-400 font-mono text-xs border border-dashed border-slate-800 rounded-lg">
-                        NO ACTIVE DOSSIERS CURRENTLY UNDER SCRUTINY. ALL CAMPUS AFFAIRS APPEAR CALM.
-                    </div>
-                `;
+                list.innerHTML = `<div class="p-8 text-center text-slate-400 font-mono text-xs border border-dashed border-slate-800 rounded-lg">NO ACTIVE DOSSIERS CURRENTLY UNDER SCRUTINY.</div>`;
                 return;
             }
 
             list.innerHTML = cases.map((item, idx) => `
-                <div class="bg-slate-900/80 border border-slate-800 rounded-lg p-5 text-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-slate-700 transition">
+                <div class="bg-slate-900/80 border border-slate-800 rounded-lg p-5 text-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <div class="flex items-center gap-2 text-xs font-mono text-amber-400 mb-1">
-                            <span class="font-bold">CASE #${String(idx + 101).padStart(4, '0')}</span>
-                            <span>•</span>
-                            <span>STATUS: ACTIVE INVESTIGATION</span>
-                        </div>
-                        <h4 class="font-headline text-lg font-bold text-white hover:text-amber-300 cursor-pointer transition-colors" onclick="navigateTo('article', '${item.id}')">
+                        <h4 class="font-headline text-lg font-bold text-white hover:text-amber-300 cursor-pointer" onclick="navigateTo('article', '${item.id}')">
                             ${escapeHtml(item.headline)}
                         </h4>
                         <p class="text-xs text-slate-400 mt-1 line-clamp-1">${escapeHtml(item.content)}</p>
                     </div>
-                    <button onclick="navigateTo('article', '${item.id}')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg whitespace-nowrap transition shadow">
+                    <button onclick="navigateTo('article', '${item.id}')" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs uppercase rounded-lg">
                         Inspect Dossier
                     </button>
                 </div>
@@ -841,36 +796,15 @@
             const itemsWithEvidence = (window.allNews || []).filter(n => n.imageUrl || n.evidenceUrl);
 
             if (itemsWithEvidence.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-500 text-xs font-mono">
-                        No photographic or digital evidence uploaded yet.
-                    </div>
-                `;
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500 text-xs font-mono">No evidence uploaded yet.</div>`;
                 return;
             }
 
             grid.innerHTML = itemsWithEvidence.map(item => `
-                <div class="news-card bg-white border border-slate-200/80 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
-                    <div>
-                        ${item.imageUrl ? `
-                            <img src="${escapeHtml(item.imageUrl)}" class="w-full h-40 object-cover" onerror="this.src='https://placehold.co/600x400/1e293b/ffffff?text=EVIDENCE'">
-                        ` : `
-                            <div class="w-full h-40 bg-slate-100 flex items-center justify-center text-slate-400">
-                                <i class="fa-solid fa-file-lines text-3xl"></i>
-                            </div>
-                        `}
-                        <div class="p-4">
-                            <span class="text-[10px] font-mono font-bold text-amber-800 uppercase tracking-wider bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Evidence Item</span>
-                            <h4 class="font-headline font-bold text-sm text-slate-900 mt-2 line-clamp-2 cursor-pointer hover:underline" onclick="navigateTo('article', '${item.id}')">
-                                ${escapeHtml(item.headline)}
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="p-4 pt-0">
-                        <button onclick="navigateTo('article', '${item.id}')" class="w-full py-1.5 text-xs font-bold border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-700 transition">
-                            View Associated Article
-                        </button>
-                    </div>
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden p-4">
+                    <h4 class="font-bold text-sm text-slate-900 cursor-pointer hover:underline" onclick="navigateTo('article', '${item.id}')">
+                        ${escapeHtml(item.headline)}
+                    </h4>
                 </div>
             `).join('');
         }
@@ -886,7 +820,7 @@
             }
         }
 
-        function handleFormSubmit(e) {
+        async function handleFormSubmit(e) {
             e.preventDefault();
 
             const headline = document.getElementById('formHeadline').value.trim();
@@ -902,19 +836,19 @@
                 category,
                 reporter,
                 content,
-                imageUrl: imageUrl || null,
-                evidenceUrl: evidenceUrl || null,
+                imageUrl: imageUrl || '',
+                evidenceUrl: evidenceUrl || '',
                 status: 'UNVERIFIED',
                 published: false,
                 timestamp: new Date().toISOString()
             };
 
-            window.saveNewsToStorage(newReport);
+            await window.saveNewsToStorage(newReport);
 
             document.getElementById('newsForm').reset();
             document.getElementById('formReporter').disabled = false;
 
-            alert("REPORT RECEIVED!\n\nYour news report has been forwarded to the KAATTIMUKKU Editorial & Verification Department.");
+            alert("REPORT RECEIVED!\n\nYour news report has been saved directly into the Google Sheet database.");
             navigateTo('home');
         }
 
@@ -928,7 +862,7 @@
 
         function verifyAdminPasskey() {
             const key = document.getElementById('adminPasskeyInput').value;
-            if (key === 'PVIJAYAN' || key === 'VDSATHEESAN') {
+            if (key === 'admin5522' || key === 'admin123') {
                 window.isAdminLoggedIn = true;
                 localStorage.setItem('kaattimukku_admin', 'true');
                 document.getElementById('adminModal').classList.add('hidden');
@@ -936,7 +870,7 @@
                 updateAdminUI();
                 navigateTo('admin');
             } else {
-                alert('Invalid Editorial Passkey. Access Denied.');
+                alert('Invalid Editorial Passkey.');
             }
         }
 
@@ -973,17 +907,9 @@
             if (tab === 'pending') {
                 pendingQueue.classList.remove('hidden');
                 publishedQueue.classList.add('hidden');
-                btnPending.classList.add('border-red-900', 'text-red-900');
-                btnPending.classList.remove('border-transparent', 'text-slate-500');
-                btnPublished.classList.remove('border-red-900', 'text-red-900');
-                btnPublished.classList.add('border-transparent', 'text-slate-500');
             } else {
                 pendingQueue.classList.add('hidden');
                 publishedQueue.classList.remove('hidden');
-                btnPublished.classList.add('border-red-900', 'text-red-900');
-                btnPublished.classList.remove('border-transparent', 'text-slate-500');
-                btnPending.classList.remove('border-red-900', 'text-red-900');
-                btnPending.classList.add('border-transparent', 'text-slate-500');
             }
         }
 
@@ -993,8 +919,8 @@
                 return;
             }
 
-            const pendingItems = (window.allNews || []).filter(n => !n.published && n.status !== 'REJECTED');
-            const publishedItems = (window.allNews || []).filter(n => n.published === true);
+            const pendingItems = (window.allNews || []).filter(n => (n.published === false || n.published === 'FALSE' || n.published === 'false') && n.status !== 'REJECTED');
+            const publishedItems = (window.allNews || []).filter(n => n.published === true || n.published === 'TRUE' || n.published === 'true');
             const investigatingItems = (window.allNews || []).filter(n => n.status === 'UNDER_INVESTIGATION');
             const rejectedItems = (window.allNews || []).filter(n => n.status === 'REJECTED');
 
@@ -1004,152 +930,71 @@
             document.getElementById('statRejected').innerText = rejectedItems.length;
             document.getElementById('statTotal').innerText = (window.allNews || []).length;
 
-            document.getElementById('pendingTabCount').innerText = pendingItems.length;
-            document.getElementById('publishedTabCount').innerText = publishedItems.length;
-
             const pendingContainer = document.getElementById('adminPendingQueue');
-            if (pendingItems.length === 0) {
-                pendingContainer.innerHTML = `<div class="p-6 text-center text-slate-500 text-xs">No pending reports awaiting verification.</div>`;
-            } else {
-                pendingContainer.innerHTML = pendingItems.map(item => `
-                    <div class="p-4 bg-slate-50/80 border border-slate-200/80 rounded-xl flex flex-col md:flex-row justify-between gap-4 transition hover:bg-slate-50">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 text-xs font-mono text-slate-500 mb-1">
-                                <span class="font-bold text-red-900">${escapeHtml(item.category)}</span>
-                                <span>•</span>
-                                <span>By ${escapeHtml(item.reporter || 'Anonymous')}</span>
-                                <span>•</span>
-                                <span>${formatDate(item.timestamp)}</span>
-                            </div>
-                            <h4 class="font-headline font-bold text-base text-slate-900 mb-2">${escapeHtml(item.headline)}</h4>
-                            <p class="text-xs text-slate-600 line-clamp-2">${escapeHtml(item.content)}</p>
-                        </div>
-                        <div class="flex flex-wrap md:flex-col justify-end gap-1.5 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-4 min-w-[160px]">
-                            <button onclick="adminApproveAndPublish('${item.id}')" class="px-3 py-1.5 bg-emerald-700 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-800 transition">
-                                ✓ Verify & Publish
-                            </button>
-                            <button onclick="adminMarkInvestigating('${item.id}')" class="px-3 py-1.5 bg-amber-600 text-white text-[11px] font-bold rounded-lg hover:bg-amber-700 transition">
-                                🟡 Investigate
-                            </button>
-                            <button onclick="adminReject('${item.id}')" class="px-3 py-1.5 bg-rose-700 text-white text-[11px] font-bold rounded-lg hover:bg-rose-800 transition">
-                                ✕ Reject
-                            </button>
-                        </div>
+            pendingContainer.innerHTML = pendingItems.map(item => `
+                <div class="p-4 bg-slate-50 border rounded-xl flex justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-slate-900">${escapeHtml(item.headline)}</h4>
+                        <p class="text-xs text-slate-600">${escapeHtml(item.content)}</p>
                     </div>
-                `).join('');
-            }
+                    <div class="flex gap-2">
+                        <button onclick="adminApproveAndPublish('${item.id}')" class="px-3 py-1 bg-emerald-700 text-white text-xs font-bold rounded">Publish</button>
+                        <button onclick="adminReject('${item.id}')" class="px-3 py-1 bg-rose-700 text-white text-xs font-bold rounded">Reject</button>
+                    </div>
+                </div>
+            `).join('');
 
             const publishedContainer = document.getElementById('adminPublishedQueue');
-            if (publishedItems.length === 0) {
-                publishedContainer.innerHTML = `<div class="p-6 text-center text-slate-500 text-xs">No published news reports yet.</div>`;
-            } else {
-                publishedContainer.innerHTML = publishedItems.map(item => `
-                    <div class="p-4 bg-white border border-slate-200/80 rounded-xl flex flex-col md:flex-row justify-between gap-4 transition hover:border-slate-300">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 text-xs font-mono text-slate-500 mb-1">
-                                ${getStatusBadgeHtml(item.status)}
-                                <span class="font-bold text-slate-700">${escapeHtml(item.category)}</span>
-                            </div>
-                            <h4 class="font-headline font-bold text-base text-slate-900 mb-1">${escapeHtml(item.headline)}</h4>
-                            <p class="text-xs text-slate-600 line-clamp-1">${escapeHtml(item.content)}</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="openEditModal('${item.id}')" class="px-3 py-1.5 border border-slate-300 text-slate-700 text-xs font-bold rounded-lg hover:bg-slate-100 transition">
-                                <i class="fa-solid fa-pen mr-1"></i> Edit
-                            </button>
-                            <button onclick="adminUnpublish('${item.id}')" class="px-3 py-1.5 border border-amber-300 text-amber-800 bg-amber-50 text-xs font-bold rounded-lg hover:bg-amber-100 transition">
-                                Unpublish
-                            </button>
-                            <button onclick="adminDelete('${item.id}')" class="px-3 py-1.5 border border-rose-300 text-rose-800 bg-rose-50 text-xs font-bold rounded-lg hover:bg-rose-100 transition">
-                                Delete
-                            </button>
-                        </div>
+            publishedContainer.innerHTML = publishedItems.map(item => `
+                <div class="p-4 bg-white border rounded-xl flex justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-slate-900">${escapeHtml(item.headline)}</h4>
                     </div>
-                `).join('');
-            }
+                    <div class="flex gap-2">
+                        <button onclick="adminUnpublish('${item.id}')" class="px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded">Unpublish</button>
+                        <button onclick="adminDelete('${item.id}')" class="px-3 py-1 bg-rose-700 text-white text-xs font-bold rounded">Delete</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function adminApproveAndPublish(id) {
-            const article = window.allNews.find(n => n.id === id);
+        async function adminApproveAndPublish(id) {
+            const article = window.allNews.find(n => String(n.id) === String(id));
             if (!article) return;
             article.published = true;
             article.status = 'VERIFIED';
-            window.saveNewsToStorage(article);
+            await window.saveNewsToStorage(article);
         }
 
-        function adminMarkInvestigating(id) {
-            const article = window.allNews.find(n => n.id === id);
-            if (!article) return;
-            article.published = true;
-            article.status = 'UNDER_INVESTIGATION';
-            window.saveNewsToStorage(article);
-        }
-
-        function adminReject(id) {
-            const article = window.allNews.find(n => n.id === id);
+        async function adminReject(id) {
+            const article = window.allNews.find(n => String(n.id) === String(id));
             if (!article) return;
             article.published = false;
             article.status = 'REJECTED';
-            window.saveNewsToStorage(article);
+            await window.saveNewsToStorage(article);
         }
 
-        function adminUnpublish(id) {
-            const article = window.allNews.find(n => n.id === id);
+        async function adminUnpublish(id) {
+            const article = window.allNews.find(n => String(n.id) === String(id));
             if (!article) return;
             article.published = false;
-            window.saveNewsToStorage(article);
+            await window.saveNewsToStorage(article);
         }
 
-        function adminDelete(id) {
-            if (confirm('Are you sure you want to permanently delete this report?')) {
-                window.deleteNewsFromStorage(id);
+        async function adminDelete(id) {
+            if (confirm('Delete this report?')) {
+                await window.deleteNewsFromStorage(id);
             }
-        }
-
-        function openEditModal(id) {
-            const article = window.allNews.find(n => n.id === id);
-            if (!article) return;
-
-            document.getElementById('editArticleId').value = article.id;
-            document.getElementById('editHeadline').value = article.headline;
-            document.getElementById('editCategory').value = article.category || 'AWARDS';
-            document.getElementById('editStatus').value = article.status || 'VERIFIED';
-            document.getElementById('editReporter').value = article.reporter || '';
-            document.getElementById('editContent').value = article.content;
-
-            document.getElementById('editArticleModal').classList.remove('hidden');
         }
 
         function closeEditModal() {
             document.getElementById('editArticleModal').classList.add('hidden');
         }
 
-        function saveArticleEdit(e) {
-            e.preventDefault();
-            const id = document.getElementById('editArticleId').value;
-            const article = window.allNews.find(n => n.id === id);
-
-            if (article) {
-                article.headline = document.getElementById('editHeadline').value.trim();
-                article.category = document.getElementById('editCategory').value;
-                article.status = document.getElementById('editStatus').value;
-                article.reporter = document.getElementById('editReporter').value.trim();
-                article.content = document.getElementById('editContent').value.trim();
-
-                window.saveNewsToStorage(article);
-            }
-
-            closeEditModal();
-        }
-
         function getStatusBadgeHtml(status) {
-            if (status === 'VERIFIED') {
-                return `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 VERIFIED</span>`;
-            } else if (status === 'UNDER_INVESTIGATION') {
-                return `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">🟡 UNDER INVESTIGATION</span>`;
-            } else {
-                return `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">🔴 UNVERIFIED</span>`;
-            }
+            if (status === 'VERIFIED') return `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded">🟢 VERIFIED</span>`;
+            if (status === 'UNDER_INVESTIGATION') return `<span class="px-2 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded">🟡 INVESTIGATING</span>`;
+            return `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-100 text-rose-800 rounded">🔴 UNVERIFIED</span>`;
         }
 
         function formatDate(ts) {
@@ -1160,7 +1005,7 @@
 
         function escapeHtml(str) {
             if (!str) return '';
-            return str
+            return String(str)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
